@@ -29,7 +29,7 @@ while(cap.isOpened()):
         for (x1, y1, w1, h1) in hands:
             if (x1<x):
                 left()
-            elif ((x1+w)>x):
+            elif ((x1+w1)>x):
                 right()
             cv2.rectangle(roi, (x1, y1), (x1 + w1, y1 + h1), (0, 255, 0), 1)
 
