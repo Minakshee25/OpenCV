@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 cap = cv2.VideoCapture(0)
-hand_cascade = cv2.CascadeClassifier('hands.xml')
+hand_cascade = cv2.CascadeClassifier('fist.xml')
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 def left():
@@ -20,8 +20,11 @@ while(cap.isOpened()):
     roi = frame[200:385, 50:600]
     cv2.rectangle(frame, (50, 200), (600, 385), (255, 255, 255), 0)
 
-    hands = hand_cascade.detectMultiScale(roi, 1.3, 4)
-    faces = face_cascade.detectMultiScale(frame, 1.3, 4)
+    grayframe = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    grayroi = cv2.cvtColor(roi,cv2.COLOR_BGR2GRAY)
+
+    hands = hand_cascade.detectMultiScale(grayroi, 1.3, 4)
+    faces = face_cascade.detectMultiScale(grayframe, 1.3, 4)
 
     if len(faces)!=0:
         x = faces[0][0]
@@ -36,13 +39,13 @@ while(cap.isOpened()):
         for (x1,y1,w1,h1) in hands:
             if (x1<x):
                 cv2.rectangle(roi, (x1, y1), (x1 + w1, y1 + h1), (0, 255, 0), 1)
-                l=l+1
+                l=l+1 #if left hand is detected increment l
 
             elif ((x1+w1)>x):
                 cv2.rectangle(roi, (x1, y1), (x1 + w1, y1 + h1), (0, 0, 255), 1)
-                r=r+1
+                r=r+1 #if right hand is detected increment r
 
-        if l==r and (l!=0 or r!=0):
+        if l==r and (l!=0 or r!=0): #(l!=0 or r!=0) means if any one hand is detected
             both()
         elif l>r:
             left()
