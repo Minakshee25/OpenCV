@@ -4,6 +4,11 @@
 1) Libraries : OpenCV-python, Pyautogui
 2) game : https://play.hotwheels.com/en-gb/games/race-car-rush.html
 
+## Game rules :
+1) left fist : move left
+2) right fist : move right
+3) both : jump
+
 ## How this works?
 
 #### This code will detect face using harcascade file.
