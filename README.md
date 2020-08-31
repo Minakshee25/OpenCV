@@ -1,6 +1,4 @@
-# OpenCV
-
-
+# OpenCV race-car-rush
 
 ## Requirements :
 1) Libraries : OpenCV-python, Pyautogui
