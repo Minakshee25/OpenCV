@@ -1,17 +1,10 @@
 import cv2
+import pyautogui
 import numpy as np
+
 cap = cv2.VideoCapture(0)
 hand_cascade = cv2.CascadeClassifier('fist.xml')
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
-def left():
-    print("Left Hand detected - ", x1, y1, w1, h1)
-
-def right():
-    print("Right hand detected - ", x1, y1, w1, h1)
-
-def both():
-    print("Both hands are detected")
 
 while(cap.isOpened()):
     ret,frame = cap.read()
@@ -33,24 +26,26 @@ while(cap.isOpened()):
         h = faces[0][3]
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 1)
 
-        l=0
-        r=0
+        l=r=0
 
         for (x1,y1,w1,h1) in hands:
             if (x1<x):
                 cv2.rectangle(roi, (x1, y1), (x1 + w1, y1 + h1), (0, 255, 0), 1)
-                l=l+1 #if left hand is detected increment l
+                l=l+1
 
             elif ((x1+w1)>x):
                 cv2.rectangle(roi, (x1, y1), (x1 + w1, y1 + h1), (0, 0, 255), 1)
-                r=r+1 #if right hand is detected increment r
+                r=r+1
 
-        if l==r and (l!=0 or r!=0): #(l!=0 or r!=0) means if any one hand is detected
-            both()
+        if l==r and (l!=0 or r!=0):
+            print("Both hands are detected")
+            pyautogui.press('up')
         elif l>r:
-            left()
+            print("Left Hand detected")
+            pyautogui.press('left')
         elif l<r:
-            right()
+            print("Right hand detected")
+            pyautogui.press('right')
 
     cv2.imshow('frame',frame)
 
